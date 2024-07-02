@@ -1,7 +1,7 @@
 "use client"
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-export type ThemeStateProps = {
+export type ThemeProviderProps = {
     children: ReactNode
 }
 
@@ -15,7 +15,7 @@ const ThemeContext = createContext<ThemeContextTypes>({
     toggleMode: () => {}
 });
 
-export default function ThemeState({ children }: ThemeStateProps) {
+export default function ThemeProvider({ children }: ThemeProviderProps) {
     const [mode, setMode] = useState<string>("dark");
 
     const toggleMode = () => {

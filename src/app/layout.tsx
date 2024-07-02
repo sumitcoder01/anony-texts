@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import ThemeState from "@/context/ThemeContext";
+import ThemeProvider from "@/context/ThemeContext";
 import { BodyWrapper } from "@/components/specific/BodyWrapper";
+import AuthProvider from "@/context/AuthContext";
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: "Anony Texts",
@@ -17,9 +19,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <ThemeState>
-        <BodyWrapper>{children}</BodyWrapper>
-      </ThemeState>
+      <ThemeProvider>
+        <AuthProvider>
+          <BodyWrapper>
+            {children}
+            <Toaster />
+          </BodyWrapper>
+        </AuthProvider>
+      </ThemeProvider>
     </html>
   );
 }

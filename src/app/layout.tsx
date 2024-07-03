@@ -5,6 +5,7 @@ import ThemeProvider from "@/context/ThemeContext";
 import { BodyWrapper } from "@/components/specific/BodyWrapper";
 import AuthProvider from "@/context/AuthContext";
 import { Toaster } from "@/components/ui/toaster"
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
   title: "Anony Texts",
@@ -22,6 +23,7 @@ export default function RootLayout({
       <ThemeProvider>
         <AuthProvider>
           <BodyWrapper>
+            <NextTopLoader />
             {children}
             <Toaster />
           </BodyWrapper>

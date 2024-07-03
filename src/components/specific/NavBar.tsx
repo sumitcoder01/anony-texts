@@ -2,44 +2,28 @@
 import { useTheme } from "@/context/ThemeContext"
 import { Button } from "../ui/button";
 import { signOut } from 'next-auth/react';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+import { DarkModeIcon } from "../icons/DarkModeIcon";
+import { LightModeIcon } from "../icons/LightModeIcon";
+import Link from "next/link";
 
 export const NavBar = () => {
   const { mode, toggleMode } = useTheme();
 
   return (
-    <header className='mb-2 w-full bg-orange-900 text-right'>
-      <NavigationMenu className="w-full flex justify-center items-center py-4 px-6 gap-4 bg-red-700">
-        <NavigationMenuItem>
-          <NavigationMenuLink href="/" className="font-semibold">Home</NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger className="font-semibold">Account</NavigationMenuTrigger>
-          <NavigationMenuContent className="w-28">
-            <NavigationMenuList className="flex flex-col items-center gap-2">
-              <NavigationMenuItem>
-                <NavigationMenuLink href="/dashboard">Dashboard</NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink onClick={() => signOut()}>Logout</NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Button onClick={toggleMode} className="text-sm font-medium">
-            {mode === "dark" ? "Light Mode" : "Dark Mode"}
-          </Button>
-        </NavigationMenuItem>
-      </NavigationMenu>
-    </header>
+    <header className='mb-2 w-full bg-[#FAF9F6] dark:bg-[#282C35]'>
+      <nav className="w-full flex justify-center md:justify-end items-center py-4 px-6 gap-5">
+        <div className="flex items-center justify-center gap-4">
+          <Link href="/" className="font-semibold hover:underline">Home</Link>
+          <Link href="/dashboard" className="font-semibold hover:underline">Dashboard</Link>
+        </div>
+        <div className="flex items-center justify-end gap-2">
+          <Button className="text-sm font-medium bg-red-600 hover:bg-red-800" variant="outline" onClick={() => signOut()}>Logout</Button>
+          <div onClick={toggleMode} className="text-sm font-medium text-center">
+            {mode === "dark" ? <DarkModeIcon className="h-4 w-4" /> : <LightModeIcon className="h-4 w-4" />}
+          </div>
+        </div>
+      </nav>
+    </header >
   )
 }
 

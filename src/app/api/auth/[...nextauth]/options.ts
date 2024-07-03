@@ -54,7 +54,7 @@ export const authOptions: NextAuthOptions = {
     async signIn({ account, profile }) {
       if (account && profile && account.provider === "google") {
         await dbConnect();
-        const email = profile.email || "";
+        const email = profile?.email || "";
         let user = await UserModel.findOne({ email });
         if (!user) {
           const username = createUserName(email)
@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
             username,
             email,
             isVerified: true,
-            verifyCode: Math.floor(100000 + Math.random() * 900000),
+            verifyCode: Math.floor(100000 + Math.random() * 900000).toString(),
             verifyCodeExpiry: Date.now(),
             isGoogleAccount: true
           });

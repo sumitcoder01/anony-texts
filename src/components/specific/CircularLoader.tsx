@@ -6,8 +6,8 @@ export type CircularLoaderProps = {
 
 export const CircularLoader = ({ className }: CircularLoaderProps) => {
     return (
-        <div className={className}>
-            <LoaderCircle />
+        <div className="text-center">
+            <LoaderCircle className={className} />
         </div>
     )
 }

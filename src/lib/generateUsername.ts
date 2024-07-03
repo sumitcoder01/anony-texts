@@ -1,10 +1,7 @@
 import { generateFromEmail } from "unique-username-generator";
 
-export type createUserNameProps = {
-    email: string;
-}
 
-export const createUserName = ({ email }: createUserNameProps): string => {
+export const createUserName = (email: string): string => {
     const username: string = generateFromEmail(
         email,
         10

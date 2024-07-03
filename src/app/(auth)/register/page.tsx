@@ -1,6 +1,6 @@
 'use client';
 
-import { APIResponse } from '@/types/APIResponse';
+import { APIResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useToast } from "@/components/ui/use-toast"
@@ -18,6 +18,7 @@ import { CircularLoader } from '@/components/specific/CircularLoader';
 import { UsernameIcon } from '@/components/icons/UsernameIcon';
 import { EmailIcon } from '@/components/icons/EmailIcon';
 import { PasswordIcon } from '@/components/icons/PasswordIcon';
+import { PasswordInput } from '@/components/shared/PasswordInput';
 
 const Register = () => {
   const [username, setUsername] = useState<string>('');
@@ -34,6 +35,7 @@ const Register = () => {
       username: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
   });
   useEffect(() => {
@@ -62,7 +64,7 @@ const Register = () => {
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post<APIResponse>('/api/register', data);
+      const response = await axios.post<APIResponse>('/api/auth/register', data);
 
       toast({
         title: 'Success',
@@ -90,11 +92,11 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen light:bg-gray-800">
-      <div className="w-full max-w-md p-8 space-y-8 light:bg-white rounded-lg shadow-md">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-lg p-8 space-y-8 bg-white dark:bg-black rounded-lg shadow-md my-2">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            Join True Anony Texts
+            Join  Anony Texts
           </h1>
           <p className="mb-4">Sign up to start your anonymous adventure</p>
         </div>
@@ -135,7 +137,7 @@ const Register = () => {
                 <FormItem>
                   <FormLabel className="flex gap-1 items-center"><EmailIcon className="h-4 w-4" />Email</FormLabel>
                   <Input {...field} name="email" />
-                  <p className='text-muted light:text-gray-700 text-sm'>We will send you a verification code</p>
+                  <p className='text-muted text-gray-900 dark:text-[#EDEADE] text-sm'>We will send you a verification code</p>
                   <FormMessage />
                 </FormItem>
               )}
@@ -147,7 +149,7 @@ const Register = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex gap-1 items-center"><PasswordIcon className="h-4 w-4" />Password</FormLabel>
-                  <Input type="password" {...field} name="password" />
+                  <PasswordInput name="password" field={field}/>
                   <FormMessage />
                 </FormItem>
               )}
@@ -158,13 +160,13 @@ const Register = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex gap-1 items-center" ><PasswordIcon className="h-4 w-4" />confirm Password</FormLabel>
-                  <Input type="password" {...field} name="confirmPassword" />
+                  <FormLabel className="flex gap-1 items-center" ><PasswordIcon className="h-4 w-4" />Confirm Password</FormLabel>
+                  <PasswordInput name="confirmPassword" field={field}/>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className='w-full' disabled={isSubmitting}>
+            <Button type="submit" className='w-full font-bold' disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <CircularLoader className="mr-2 h-4 w-4 animate-spin" />
@@ -179,8 +181,8 @@ const Register = () => {
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}
-            <Link href="/login" className="text-blue-600 hover:text-blue-800">
-              Login
+            <Link href="/login" className="text-blue-600 hover:text-blue-800 hover:underline">
+              Sign in
             </Link>
           </p>
         </div>

@@ -77,7 +77,9 @@ export const authOptions: NextAuthOptions = {
         token.isVerified = user.isVerified;
         token.isAcceptingMessages = user.isAcceptingMessages;
         token.username = user.username;
-        token.name = user.name;
+        token.createdAt = user.createdAt;
+        token.updatedAt = user.updatedAt;
+        token.isGoogleAccount = user.isGoogleAccount;
         token.email = user.email;
       }
       return token;
@@ -88,7 +90,9 @@ export const authOptions: NextAuthOptions = {
         session.user.isVerified = token.isVerified;
         session.user.isAcceptingMessages = token.isAcceptingMessages;
         session.user.username = token.username;
-        session.user.name = token.name;
+        session.user.createdAt = token.createdAt;
+        session.user.updatedAt = token.updatedAt;
+        session.user.isGoogleAccount = token.isGoogleAccount;
         session.user.email = token.email;
       }
       return session;

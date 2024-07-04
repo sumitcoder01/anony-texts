@@ -7,6 +7,9 @@ declare module 'next-auth' {
       isVerified?: boolean;
       isAcceptingMessages?: boolean;
       username?: string;
+      createdAt?: Date;
+      updatedAt?: Date;
+      isGoogleAccount?:boolean;
     } & DefaultSession['user'];
   }
 
@@ -15,6 +18,9 @@ declare module 'next-auth' {
     isVerified?: boolean;
     isAcceptingMessages?: boolean;
     username?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    isGoogleAccount?:boolean;
   }
 }
 
@@ -24,5 +30,8 @@ declare module 'next-auth/jwt' {
     isVerified?: boolean;
     isAcceptingMessages?: boolean;
     username?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    isGoogleAccount?:boolean;
   }
 }

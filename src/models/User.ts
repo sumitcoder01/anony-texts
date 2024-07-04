@@ -3,18 +3,8 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface Message extends Document {
     content: string;
     createdAt: Date;
+    updatedAt: Date
 }
-
-const MessageSchema: Schema<Message> = new mongoose.Schema({
-    content: {
-        type: String,
-        required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
 
 export interface User extends Document {
     username: string;
@@ -24,9 +14,19 @@ export interface User extends Document {
     verifyCodeExpiry: Date;
     isVerified: boolean;
     isAcceptingMessages: boolean;
-    isGoogleAccount:boolean;
+    isGoogleAccount: boolean;
     messages: Message[];
+    createdAt: Date;
+    updatedAt: Date
 }
+
+const MessageSchema: Schema<Message> = new mongoose.Schema({
+    content: {
+        type: String,
+        required: true,
+    }
+}, { timestamps: true });
+
 
 // Updated User schema
 const UserSchema: Schema<User> = new mongoose.Schema({
@@ -67,7 +67,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
         default: false,
     },
     messages: [MessageSchema],
-});
+}, { timestamps: true });
 
 const UserModel =
     (mongoose.models.User as mongoose.Model<User>) ||

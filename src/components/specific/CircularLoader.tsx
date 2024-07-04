@@ -1,7 +1,7 @@
 import { LoaderCircle } from "lucide-react";
 
 export type CircularLoaderProps = {
-    className: string;
+    className?: string;
 }
 
 export const CircularLoader = ({ className }: CircularLoaderProps) => {

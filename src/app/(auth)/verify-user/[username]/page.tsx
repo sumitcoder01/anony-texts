@@ -17,6 +17,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { CircularLoader } from '@/components/specific/CircularLoader';
+import { SecretsIcon } from '@/components/icons/SecretsIcon';
+import { useState } from 'react';
 
 export type VerifyUserProps = {
   params: { username: string };
@@ -80,7 +82,7 @@ const VerifyUser = ({ params }: VerifyUserProps) => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Verification Code</FormLabel>
+                  <FormLabel><SecretsIcon className="h-4 w-4" />Verification Code</FormLabel>
                   <Input {...field} />
                   <FormMessage />
                 </FormItem>

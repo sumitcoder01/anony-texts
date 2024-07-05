@@ -1,0 +1,1 @@
+export const avatarDefaultImg = "https://github.com/shadcn.png";

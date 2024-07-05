@@ -18,6 +18,8 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { RefreshIcon } from "@/components/icons/RefreshIcon";
 import { CircularLoader } from "@/components/specific/CircularLoader";
+import { MessagesListSkeleton } from "@/components/loaders/MessageListSkeleton";
+import { MessagesList } from "@/components/specific/MessagesList";
 
 
 const Dashboard = () => {
@@ -26,7 +28,7 @@ const Dashboard = () => {
   const [isSwitchLoading, setIsSwitchLoading] = useState<boolean>(false);
   const { data: session } = useSession();
   const { toast } = useToast();
-  const [copiedText, copy] = useCopyToClipboard()
+  const [copiedText, copy] = useCopyToClipboard();
 
   const handleDeleteMessage = (id: string) => {
     setMessages(messages.filter(message => message._id !== id));
@@ -129,7 +131,7 @@ const Dashboard = () => {
   const handleCopy = () => {
     copy(profileUrl)
       .then(() => {
-        console.log("Copied Text",copiedText);
+        console.log("Copied Text", copiedText);
         toast({
           title: 'URL Copied!',
           description: 'Profile URL has been copied to clipboard.',
@@ -155,7 +157,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="mb-8">
-        <div className="flex items-center space-x-2">
+        {isSwitchLoading ? <div className="flex items-center space-x-2">
           <Switch
             {...register('acceptMessages')}
             checked={acceptMessages}
@@ -163,6 +165,9 @@ const Dashboard = () => {
             id="accept-messages" />
           <Label htmlFor="accept-messages">Accept Messages: {acceptMessages ? 'On' : 'Off'}</Label>
         </div>
+          :
+          <CircularLoader className="h-4 w-4" />
+        }
       </div>
       <Separator />
       <Button
@@ -180,6 +185,9 @@ const Dashboard = () => {
           <RefreshIcon className="h-4 w-4" />
         )}
       </Button>
+      <div className="mt-4">
+        {isMessageLoading ? <MessagesListSkeleton /> : <MessagesList messages={messages} handleDeleteMessage={handleDeleteMessage} />}
+      </div>
     </div>
   )
 }

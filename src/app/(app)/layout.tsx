@@ -1,3 +1,4 @@
+import { Footer } from "@/components/specific/Footer";
 import { NavBar } from "@/components/specific/NavBar";
 
 
@@ -8,8 +9,9 @@ export default function AppLayout({
 }>) {
     return (
         <div>
-            <NavBar/>
+            <NavBar />
             {children}
+            <Footer />
         </div>
     );
 }

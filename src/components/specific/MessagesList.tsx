@@ -8,7 +8,7 @@ export type MessagesListProps = {
 
 export const MessagesList = ({ messages, handleDeleteMessage }: MessagesListProps) => {
     return (
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
             {messages.length > 0 ? (
                 messages.map(message => (
                     <MessageCard
@@ -18,7 +18,7 @@ export const MessagesList = ({ messages, handleDeleteMessage }: MessagesListProp
                     />
                 ))
             ) : (
-                <p className="text-lg text-center">No messages to display.</p>
+                <p className="text-lg text-center mx-auto">No messages to display.</p>
             )}
         </div>
     )

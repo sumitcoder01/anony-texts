@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         const { acceptMessages } = await request.json();
 
         // Update the user's message acceptance status
-        const user = UserModel.findByIdAndUpdate(_id, { isAcceptMessages: acceptMessages }, { new: true });
+        const user = await UserModel.findByIdAndUpdate(_id, { isAcceptMessages: acceptMessages }, { new: true });
         if (!user) {
             return NextResponse.json(
                 { success: false, message: 'Unable to find user to update message acceptance status' },

@@ -39,8 +39,7 @@ export const MessageCard = ({ message, handleDeleteMessage }: MessageCardProps) 
             );
             handleDeleteMessage(message._id as string);
             toast({
-                title: "Success",
-                description: response.data.message
+                title: response.data.message,
             });
         } catch (error) {
             const axiosError = error as AxiosError<APIResponse>;
@@ -55,13 +54,13 @@ export const MessageCard = ({ message, handleDeleteMessage }: MessageCardProps) 
 
     return (
         <Card>
-            <CardHeader>
-                <div className="flex justify-start items-center">
+            <CardHeader className="space-y-2">
+                <div className="flex justify-start items-center gap-6">
                     <CardTitle>{message.content}</CardTitle>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <Button variant='destructive'>
-                                <CloseIcon className="w-5 h-5" />
+                                <CloseIcon className="w-4 h-4" />
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>

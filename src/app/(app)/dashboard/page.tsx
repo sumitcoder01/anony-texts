@@ -42,7 +42,7 @@ const Dashboard = () => {
 
   const fetchMessages = async (refresh: boolean = false) => {
     setIsMessageLoading(true);
-    if (refresh) setIsSwitchLoading(false);
+    if (refresh) setIsSwitchLoading(true);
     try {
       const response = await axios.get<APIResponse>('/api/get-messages');
       setMessages(response.data.messages || []);
@@ -92,7 +92,7 @@ const Dashboard = () => {
     fetchAcceptMessages();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, []);
 
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
@@ -157,7 +157,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="mb-8">
-        {isSwitchLoading ? <div className="flex items-center space-x-2">
+        {!isSwitchLoading ? <div className="flex items-center space-x-2">
           <Switch
             {...register('acceptMessages')}
             checked={acceptMessages}
@@ -166,7 +166,7 @@ const Dashboard = () => {
           <Label htmlFor="accept-messages">Accept Messages: {acceptMessages ? 'On' : 'Off'}</Label>
         </div>
           :
-          <CircularLoader className="h-4 w-4" />
+          <CircularLoader className="h-4 w-4 animate-spin" />
         }
       </div>
       <Separator />
@@ -180,7 +180,7 @@ const Dashboard = () => {
         }
       >
         {isMessageLoading ? (
-          <CircularLoader className="h-4 w-4" />
+          <CircularLoader className="h-4 w-4 animate-spin" />
         ) : (
           <RefreshIcon className="h-4 w-4" />
         )}

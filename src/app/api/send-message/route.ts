@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const updatetUser = UserModel.updateOne(
+        const updatetUser = await UserModel.updateOne(
             { _id: user._id },
             { $push: { messages: { content } } },
             { new: true }

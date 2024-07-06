@@ -94,7 +94,7 @@ const Login = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="flex gap-1 items-center"><UsernameIcon className="h-4 w-4" /> Username</FormLabel>
+                  <FormLabel className="flex gap-1 items-center"><UsernameIcon className="h-4 w-4" /> Username/Email</FormLabel>
                   <Input {...field} />
                   <FormMessage />
                 </FormItem>

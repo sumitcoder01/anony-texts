@@ -137,7 +137,7 @@ const Register = () => {
                 <FormItem>
                   <FormLabel className="flex gap-1 items-center"><EmailIcon className="h-4 w-4" />Email</FormLabel>
                   <Input {...field} name="email" />
-                  <p className='text-muted text-gray-900 dark:text-[#EDEADE] text-sm'>We will send you a verification code</p>
+                  <p className='text-muted text-gray-900 dark:text-[#EDEADE] text-xs'>We will send you a verification code</p>
                   <FormMessage />
                 </FormItem>
               )}

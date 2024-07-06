@@ -82,7 +82,7 @@ const VerifyUser = ({ params }: VerifyUserProps) => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel><SecretsIcon className="h-4 w-4" />Verification Code</FormLabel>
+                  <FormLabel className="flex gap-1 items-center"><SecretsIcon className="h-4 w-4" />Verification Code</FormLabel>
                   <Input {...field} />
                   <FormMessage />
                 </FormItem>

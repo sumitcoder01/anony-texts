@@ -109,6 +109,7 @@ const Login = () => {
                   <FormLabel className="flex gap-1 items-center"><PasswordIcon className="h-4 w-4" />Password</FormLabel>
                   <PasswordInput name="password" field={field} />
                   <FormMessage />
+                  <p onClick={()=>router.replace("/forgot-password")} className='text-blue-600 hover:text-blue-800 hover:underline text-sm text-right underline-offset-2'>Forgot password?</p>
                 </FormItem>
               )}
             />

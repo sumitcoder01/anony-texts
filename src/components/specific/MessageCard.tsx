@@ -59,9 +59,9 @@ export const MessageCard = ({ message, handleDeleteMessage }: MessageCardProps) 
     };
 
     return (
-        <Card>
+        <Card className="sm:w-72 md:w-96">
             <CardHeader className="space-y-2">
-                <div className="flex justify-start items-center gap-6">
+                <div className="flex justify-between items-center gap-6">
                     <CardTitle>{message.content}</CardTitle>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>

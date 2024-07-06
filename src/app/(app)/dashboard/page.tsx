@@ -167,7 +167,7 @@ const Dashboard = () => {
           <CircularLoader className="h-4 w-4 animate-spin" />
         }
       </div>
-      <Separator />
+      <Separator className="my-2" />
       <Button
         className="mt-8"
         variant="outline"

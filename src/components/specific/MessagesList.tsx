@@ -1,5 +1,7 @@
 import { Message } from "@/models/User";
-import { MessageCard } from "./MessageCard"; 
+import { MessageCard } from "./MessageCard";
+import { useTheme } from "@/context/ThemeContext";
+import { NoDocumentFoundIcon } from "../icons/NoDocumentFoundIcon";
 
 export type MessagesListProps = {
     messages: Message[];
@@ -7,19 +9,21 @@ export type MessagesListProps = {
 }
 
 export const MessagesList = ({ messages, handleDeleteMessage }: MessagesListProps) => {
+    const { mode } = useTheme();
     return (
-        <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
-            {messages.length > 0 ? (
-                messages.map(message => (
-                    <MessageCard
-                        key={message._id as string}
-                        message={message}
-                        handleDeleteMessage={handleDeleteMessage}
-                    />
-                ))
-            ) : (
-                <p className="text-lg text-center mx-auto">No messages to display.</p>
-            )}
+        <div>
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center mx-auto">
+                {messages.length > 0 && (
+                    messages.map(message => (
+                        <MessageCard
+                            key={message._id as string}
+                            message={message}
+                            handleDeleteMessage={handleDeleteMessage}
+                        />
+                    ))
+                )}
+            </div>
+            {!messages.length && <p className="text-center mx-auto w-36"><NoDocumentFoundIcon color={mode === "light" ? "black" : "white"} /></p>}
         </div>
     )
 }

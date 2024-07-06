@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { usernameValidation } from '@/schemas/registerSchema';
 
-export const UsernameQuerySchema = z.object({
+const UsernameQuerySchema = z.object({
     username: usernameValidation,
 });
 

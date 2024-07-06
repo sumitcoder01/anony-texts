@@ -24,6 +24,7 @@ const initialMessageString =
     "What's your favorite movie?||Do you have any pets?||What's your dream job?";
 
 const SendMessage = ({ params }: SendMessageProps) => {
+    const [suggestMessageString, setSuggestMessageString] = useState<string>(initialMessageString);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { username } = params;
     const { toast } = useToast();
@@ -37,7 +38,11 @@ const SendMessage = ({ params }: SendMessageProps) => {
     };
 
     const messageContent = form.watch("content");
-    
+
+    const suggetMessages = () => {
+        setSuggestMessageString(initialMessageString)
+    }
+
     const onSubmit = async (data: z.infer<typeof messageSchema>) => {
         setIsLoading(true);
         try {
@@ -103,13 +108,13 @@ const SendMessage = ({ params }: SendMessageProps) => {
             </Form>
             <div className="space-y-6 my-8">
                 <div className="space-y-4">
-                    <Button>Suggest Messages</Button>
+                    <Button onClick={suggetMessages}>Suggest Messages</Button>
                     <p>Click on any message below to select it.</p>
                 </div>
                 <Card>
                     <CardHeader>Messages</CardHeader>
                     <CardContent className="flex flex-col gap-6">
-                        {parseStringMessages(initialMessageString).map((message, index) => (
+                        {parseStringMessages(suggestMessageString).map((message, index) => (
                             <Button
                                 key={index}
                                 variant={"outline"}
@@ -121,7 +126,7 @@ const SendMessage = ({ params }: SendMessageProps) => {
                 </Card>
                 <Separator className="my-6" />
                 <div className="text-center">
-                    <Link href="/dashboard">Check your message board</Link>
+                    <Link className="underline text-sm" href="/dashboard">Check your message board?</Link>
                 </div>
             </div>
         </div>

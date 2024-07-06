@@ -21,7 +21,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { APIResponse } from '@/types/ApiResponse';
 import axios, { AxiosError } from 'axios';
 import dayjs from 'dayjs';
-
+import { useState } from 'react';
+import { CircularLoader } from "./CircularLoader";
 
 
 export type MessageCardProps = {
@@ -31,8 +32,10 @@ export type MessageCardProps = {
 
 export const MessageCard = ({ message, handleDeleteMessage }: MessageCardProps) => {
     const { toast } = useToast();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleDeleteConfirm = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.delete<APIResponse>(
                 `/api/delete-message/${message._id}`
@@ -50,6 +53,9 @@ export const MessageCard = ({ message, handleDeleteMessage }: MessageCardProps) 
                 variant: 'destructive',
             });
         }
+        finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -60,7 +66,7 @@ export const MessageCard = ({ message, handleDeleteMessage }: MessageCardProps) 
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <Button variant='destructive'>
-                                <CloseIcon className="w-4 h-4" />
+                                {isLoading ? <CircularLoader className="w-4 h-4 animate-spin" /> : <CloseIcon className="w-4 h-4" />}
                             </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent>

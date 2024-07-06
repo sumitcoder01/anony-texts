@@ -3,6 +3,9 @@ import { streamText } from 'ai';
 import { NextRequest, NextResponse } from 'next/server';
 import { prompt } from '@/constants/aiPromt';
 
+// Allow streaming responses up to 30 seconds
+export const maxDuration = 30;
+
 export async function GET(_request: NextRequest) {
     try {
         const response = await streamText({

@@ -33,7 +33,6 @@
     "next": "14.2.4",
     "next-auth": "^4.24.7",
     "nextjs-toploader": "^1.6.12",
-    "openai": "^4.52.3",
     "react": "^18",
     "react-cssfx-loading": "^2.1.0",
     "react-dom": "^18",

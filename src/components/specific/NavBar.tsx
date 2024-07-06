@@ -4,7 +4,7 @@ import { signOut } from 'next-auth/react';
 import { DarkModeIcon } from "../icons/DarkModeIcon";
 import { LightModeIcon } from "../icons/LightModeIcon";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LogoutIcon } from "../icons/LogoutIcon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -27,6 +27,7 @@ import { avatarDefaultImg } from "@/constants/avatarDefault";
 export const NavBar = () => {
   const { mode, toggleMode } = useTheme();
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <header className="sticky mb-2 w-full bg-white dark:bg-black shadow-md rounded-lg z-50 top-0">
@@ -49,35 +50,35 @@ export const NavBar = () => {
             <DropdownMenuContent className="w-56">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.replace("/u/profile")}>
                 Profile
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem onClick={()=>router.replace("/dashboard")}>Team</DropdownMenuItem>
                 <DropdownMenuSub>
-                  <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+                  <DropdownMenuSubTrigger>Contact us</DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
                     <DropdownMenuSubContent>
-                      <DropdownMenuItem>Email</DropdownMenuItem>
-                      <DropdownMenuItem>Message</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => router.replace("https://mail.google.com/mail/?view=cm&fs=1&to=sumitjha1344@gmail.com")}>Email</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => router.replace("/u/adminuser123")}>Message</DropdownMenuItem>
                       <DropdownMenuSeparator />
                     </DropdownMenuSubContent>
                   </DropdownMenuPortal>
                 </DropdownMenuSub>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={()=>router.replace("/dashboard")}>
                   New Team
                   <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>GitHub</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.replace("https://github.com/sumitcoder01/anony-texts")}>GitHub</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.replace("/u/adminuser123")}>Support</DropdownMenuItem>
               <DropdownMenuItem disabled>API</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => signOut()}>
-                Log out <LogoutIcon className="h-6 w-6 ml-3" />
+                Log out <LogoutIcon className="h-6 w-6 ml-4" />
                 <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>

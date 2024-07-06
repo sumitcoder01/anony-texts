@@ -71,8 +71,8 @@ const SendMessage = ({ params }: SendMessageProps) => {
     };
 
     return (
-        <div className="w-full max-w-6xl bg-white dark:bg-black mt-8 p-8 mx-8 md:mx-6 lg:mx-auto">
-            <h1 className="text-4xl lg:text-5xl mb-1">Public Profile Link</h1>
+        <div className="w-full max-w-6xl bg-white dark:bg-black my-8 p-8 mx-8 md:mx-6 lg:mx-auto">
+            <h1 className="text-4xl lg:text-5xl mb-2">Public Profile Link</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <FormField
@@ -107,26 +107,25 @@ const SendMessage = ({ params }: SendMessageProps) => {
                 </form>
             </Form>
             <div className="space-y-6 my-8">
-                <div className="space-y-4">
+                <div className="space-y-4 mb-14">
                     <Button onClick={suggetMessages}>Suggest Messages</Button>
                     <p>Click on any message below to select it.</p>
                 </div>
-                <Card>
-                    <CardHeader>Messages</CardHeader>
+                <Card className="md:w-2/3 bg-black mx-auto border-none">
                     <CardContent className="flex flex-col gap-6">
                         {parseStringMessages(suggestMessageString).map((message, index) => (
                             <Button
                                 key={index}
                                 variant={"outline"}
-                                className="mb-3 py-3"
+                                className="mb-3 py-5 "
                                 onClick={() => handleMessageClick(message)}
                             >{message}</Button>
                         ))}
                     </CardContent>
                 </Card>
-                <Separator className="my-6" />
+                <Separator className="my-8" />
                 <div className="text-center">
-                    <Link className="underline text-sm" href="/dashboard">Check your message board?</Link>
+                    <Link className="underline text-sm underline-offset-4" href="/dashboard">Check your message board?</Link>
                 </div>
             </div>
         </div>

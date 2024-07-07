@@ -23,3 +23,7 @@ export const registerSchema = z.object({
         });
     }
 });
+
+export const usernameSchema = z.object({
+    username:usernameValidation
+});

@@ -1,6 +1,6 @@
 "use client"
 import { useTheme } from "@/context/ThemeContext"
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { DarkModeIcon } from "../icons/DarkModeIcon";
 import { LightModeIcon } from "../icons/LightModeIcon";
 import Link from "next/link";
@@ -22,25 +22,29 @@ import {
   DropdownMenuSub,
 } from "@/components/ui/dropdown-menu"
 import { avatarDefaultImg } from "@/constants/avatarDefault";
+import { User } from "next-auth";
+import { Button } from "../ui/button";
 
 
 export const NavBar = () => {
+  const { data: session } = useSession();
   const { mode, toggleMode } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
+  const user: User | null = session?.user;
 
   return (
     <header className="sticky mb-2 w-full bg-white dark:bg-black shadow-md rounded-lg z-50 top-0">
       <nav className="w-full flex justify-center md:justify-end items-center px-10 py-4 gap-5 md:gap-10">
         <div className="flex items-center justify-center gap-5 md:gap-10">
           <Link href="/" className={`hover:font-semibold ${pathname === '/' ? 'font-semibold' : ''}`}>Home</Link>
-          <Link href="/dashboard" className={` hover:font-semibold ${pathname === '/dashboard' ? 'font-semibold' : ''}`}>Dashboard</Link>
+          {user && <Link href="/dashboard" className={` hover:font-semibold ${pathname === '/dashboard' ? 'font-semibold' : ''}`}>Dashboard</Link>}
         </div>
         <div className="flex items-center justify-end gap-5 md:gap-10">
           <div onClick={toggleMode} className="text-sm font-medium text-center">
             {mode === "dark" ? <DarkModeIcon className="h-6 w-6" /> : <LightModeIcon className="h-6 w-6" />}
           </div>
-          <DropdownMenu>
+          {user ? <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar>
                 <AvatarImage src={avatarDefaultImg} />
@@ -56,7 +60,7 @@ export const NavBar = () => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem onClick={()=>router.replace("/dashboard")}>Team</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.replace("/dashboard")}>Team</DropdownMenuItem>
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>Contact us</DropdownMenuSubTrigger>
                   <DropdownMenuPortal>
@@ -67,7 +71,7 @@ export const NavBar = () => {
                     </DropdownMenuSubContent>
                   </DropdownMenuPortal>
                 </DropdownMenuSub>
-                <DropdownMenuItem onClick={()=>router.replace("/dashboard")}>
+                <DropdownMenuItem onClick={() => router.replace("/dashboard")}>
                   New Team
                   <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
                 </DropdownMenuItem>
@@ -83,6 +87,9 @@ export const NavBar = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+            :
+            <Button onClick={() => router.replace("/login")} variant={"destructive"}>Login</Button>
+          }
         </div>
       </nav>
     </header >

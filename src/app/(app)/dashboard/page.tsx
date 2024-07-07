@@ -119,7 +119,7 @@ const Dashboard = () => {
   };
 
   if (!session || !session.user) {
-    return <div className="text-red-500 mt-32 text-center">unauthorised access</div>
+    return <div></div>
   }
 
   const { username } = session.user as User;

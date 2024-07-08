@@ -71,7 +71,7 @@ export const ProfileCard = ({ user, updateProfile }: ProfileCardProps) => {
             const axiosError = error as AxiosError<APIResponse>;
             toast({
                 title: 'Error',
-                description: axiosError.response?.data.message,
+                description: axiosError.response?.data.message ?? "Error on updating profile",
                 variant: 'destructive',
             })
         }

@@ -26,9 +26,8 @@ export async function GET(request: NextRequest) {
                 { status: 404 }
             );
         }
-        
-        const messages: Message[] = user.messages;
 
+        const messages: Message[] = user.messages.sort((a, b) =>  new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
         return NextResponse.json(
             { successs: true, messages },
             { status: 200 }

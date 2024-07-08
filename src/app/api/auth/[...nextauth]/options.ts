@@ -71,7 +71,10 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user , trigger , session }) {
+      if(trigger === "update"){
+        return {...token , ...session.user};
+      }
       if (user) {
         token._id = user._id?.toString();
         token.isVerified = user.isVerified;

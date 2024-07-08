@@ -12,7 +12,6 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { DateIcon } from "../icons/DateIcon";
 import { EmailIcon } from "../icons/EmailIcon";
-import { useSession } from "next-auth/react";
 import { Button } from "../ui/button";
 import {
     Dialog,
@@ -41,24 +40,33 @@ import axios, { AxiosError } from 'axios';
 import { APIResponse } from "@/types/ApiResponse";
 import { CircularLoader } from "../specific/CircularLoader";
 
+export type ProfileCardProps = {
+    user: any;
+    updateProfile: (email: string, username: string) => Promise<void>;
+}
 
-export const ProfileCard = () => {
+export const ProfileCard = ({ user, updateProfile }: ProfileCardProps) => {
     const [showChangeAvatar, setShowChangeAvatar] = useState<boolean>(false);
-    const { data: session } = useSession();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof updateUserSchema>>({
         resolver: zodResolver(updateUserSchema),
+        defaultValues: {
+            username: user.username,
+            email: user.email
+        }
     });
 
     const onSubmit = async (data: z.infer<typeof updateUserSchema>) => {
         setIsLoading(true);
         try {
-            const response = await axios.put<APIResponse>("/api/update-user", data);
+            const response = await axios.put<APIResponse>("/api/auth/update-user", data);
             toast({
                 title: response.data.message,
             });
+            // update user session
+            updateProfile(data.email, data.username);
         } catch (error) {
             const axiosError = error as AxiosError<APIResponse>;
             toast({
@@ -71,12 +79,6 @@ export const ProfileCard = () => {
             setIsLoading(false);
         }
     }
-
-    if (!session || !session.user) {
-        return <div></div>
-    }
-
-    const user = session.user;
 
     return (
         <Card className="w-full max-w-xl">
@@ -106,15 +108,7 @@ export const ProfileCard = () => {
                     <div className="w-full text-right">
                         <DialogTrigger asChild>
                             <Button variant="outline">
-                                {isLoading ?
-                                    (
-                                        <>
-                                            <CircularLoader className="h-4 w-4 mr-2" /> Please wait
-                                        </>
-                                    )
-                                    :
-                                    "Edit Profile"
-                                }
+                                Edit Profile
                             </Button>
                         </DialogTrigger>
                     </div>
@@ -134,7 +128,7 @@ export const ProfileCard = () => {
                                         <FormItem>
                                             <FormLabel>Username</FormLabel>
                                             <FormControl>
-                                                <Input defaultValue={user.username} {...field} />
+                                                <Input {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -147,14 +141,22 @@ export const ProfileCard = () => {
                                         <FormItem>
                                             <FormLabel>Email</FormLabel>
                                             <FormControl>
-                                                <Input defaultValue={user.email} {...field} />
+                                                <Input {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
                                 <DialogFooter>
-                                    <Button disabled={isLoading} type="submit">Save changes</Button>
+                                    <Button disabled={isLoading} type="submit"> {isLoading ?
+                                        (
+                                            <>
+                                                <CircularLoader className="h-4 w-4 mr-2" /> Please wait
+                                            </>
+                                        )
+                                        :
+                                        "Edit Profile"
+                                    }</Button>
                                 </DialogFooter>
                             </form>
                         </Form>

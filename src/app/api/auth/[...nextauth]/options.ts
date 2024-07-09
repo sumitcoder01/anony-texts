@@ -71,9 +71,9 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user , trigger , session }) {
-      if(trigger === "update"){
-        return {...token , ...session.user};
+    async jwt({ token, user, trigger, session }) {
+      if (trigger === "update") {
+        return { ...token, ...session.user };
       }
       if (user) {
         token._id = user._id?.toString();
@@ -84,6 +84,7 @@ export const authOptions: NextAuthOptions = {
         token.updatedAt = user.updatedAt;
         token.isGoogleAccount = user.isGoogleAccount;
         token.email = user.email;
+        token.avatar = user.avatar;
       }
       return token;
     },
@@ -97,6 +98,7 @@ export const authOptions: NextAuthOptions = {
         session.user.updatedAt = token.updatedAt;
         session.user.isGoogleAccount = token.isGoogleAccount;
         session.user.email = token.email;
+        session.user.avatar = token.avatar;
       }
       return session;
     },

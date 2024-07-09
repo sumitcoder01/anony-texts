@@ -39,13 +39,16 @@ import { useToast } from "../ui/use-toast";
 import axios, { AxiosError } from 'axios';
 import { APIResponse } from "@/types/ApiResponse";
 import { CircularLoader } from "../specific/CircularLoader";
+import { CameraIcon } from "../icons/CameraIcon";
 
 export type ProfileCardProps = {
     user: any;
     updateProfile: (email: string, username: string) => Promise<void>;
+    updateAvatar: (secure_url: string, public_id: string) => void;
 }
 
-export const ProfileCard = ({ user, updateProfile }: ProfileCardProps) => {
+export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardProps) => {
+    const [avatar, setAvatar] = useState<File | null>();
     const [showChangeAvatar, setShowChangeAvatar] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { toast } = useToast();
@@ -83,11 +86,15 @@ export const ProfileCard = ({ user, updateProfile }: ProfileCardProps) => {
     return (
         <Card className="w-full max-w-xl">
             <CardHeader className="relative">
-                <Avatar className="h-40 w-40" onMouseEnter={() => setShowChangeAvatar(true)} onMouseLeave={() => setShowChangeAvatar(false)}>
-                    <AvatarImage src={user?.image ?? avatarDefaultImg} />
+                <Avatar className="h-40 w-40 relative bg-red-700" onMouseEnter={() => setShowChangeAvatar(true)} onMouseLeave={() => setShowChangeAvatar(false)}>
+                    <AvatarImage src={avatar || (user?.avatar?.secure_url ?? avatarDefaultImg)} />
                     <AvatarFallback>Avatar</AvatarFallback>
+                    <div className="absolute z-50 bottom-3 left-[70%]">
+                        <Input onChange={(e) => setAvatar(e.target.files ? e.target.files[0] : null)} className="opacity-0" type="file" />
+                        <CameraIcon />
+                    </div>
                 </Avatar>
-                {showChangeAvatar && <CardDescription className="absolute z-50 bg-gray-400 text-xs rounded-lg top-2/3 h-7  text-white p-2">Change your avatar</CardDescription>}
+                {showChangeAvatar && <CardDescription className="absolute z-40 bg-gray-400 text-xs rounded-lg top-2/3 h-7  text-white p-2">Change your avatar</CardDescription>}
             </CardHeader>
             <CardContent>
                 <div className="flex items-center"><EmailIcon className="h-4 w-4 mr-2" /> {user.email}</div>

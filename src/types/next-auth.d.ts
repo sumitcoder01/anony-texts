@@ -1,3 +1,4 @@
+import { Avatar } from '@/models/User';
 import 'next-auth';
 
 declare module 'next-auth' {
@@ -9,7 +10,8 @@ declare module 'next-auth' {
       username?: string;
       createdAt?: Date;
       updatedAt?: Date;
-      isGoogleAccount?:boolean;
+      isGoogleAccount?: boolean;
+      avatar?: Avatar;
     } & DefaultSession['user'];
   }
 
@@ -20,7 +22,8 @@ declare module 'next-auth' {
     username?: string;
     createdAt?: Date;
     updatedAt?: Date;
-    isGoogleAccount?:boolean;
+    isGoogleAccount?: boolean;
+    avatar?: Avatar;
   }
 }
 
@@ -32,6 +35,7 @@ declare module 'next-auth/jwt' {
     username?: string;
     createdAt?: Date;
     updatedAt?: Date;
-    isGoogleAccount?:boolean;
+    isGoogleAccount?: boolean;
+    avatar?: Avatar;
   }
 }

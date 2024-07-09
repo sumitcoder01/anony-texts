@@ -6,6 +6,13 @@ export interface Message extends Document {
     updatedAt: Date
 }
 
+export interface Avatar extends Document {
+    public_id: string;
+    secure_url: string;
+    createdAt: Date;
+    updatedAt: Date
+}
+
 export interface User extends Document {
     username: string;
     email: string;
@@ -17,8 +24,20 @@ export interface User extends Document {
     isGoogleAccount: boolean;
     messages: Message[];
     createdAt: Date;
-    updatedAt: Date
+    updatedAt: Date;
+    avatar: Avatar
 }
+
+const AvatarSchema: Schema<Avatar> = new mongoose.Schema({
+    public_id: {
+        type: String,
+        required: true
+    },
+    secure_url: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
 
 const MessageSchema: Schema<Message> = new mongoose.Schema({
     content: {
@@ -67,6 +86,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
         default: false,
     },
     messages: [MessageSchema],
+    avatar: AvatarSchema
 }, { timestamps: true });
 
 const UserModel =

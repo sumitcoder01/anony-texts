@@ -73,7 +73,15 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
         setIsAvatarLoading(true);
         try {
             const file = await handleImageCompression(data.file[0]) as File;
-            const response = await axios.post<APIResponse>("/api/auth/update-avatar", file);
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await axios.post<APIResponse>("/api/auth/update-avatar", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            
             toast({
                 description: response.data.message
             })

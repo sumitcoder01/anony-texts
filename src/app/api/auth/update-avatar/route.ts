@@ -6,6 +6,7 @@ import UserModel from "@/models/User";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../[...nextauth]/options";
 
+
 export async function POST(request: NextRequest) {
     await dbConnect();
     try {
@@ -20,7 +21,8 @@ export async function POST(request: NextRequest) {
 
         const { _id } = session.user;
 
-        const { file }: { file: File } = await request.json();
+        const form = await request.formData();
+        const file = form.get("file") as File;
 
         const user = await UserModel.findById(_id);
 

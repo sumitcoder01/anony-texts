@@ -72,7 +72,8 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
     const onSubmitAvatar = async (data: z.infer<typeof avatarImageSchema>) => {
         setIsAvatarLoading(true);
         try {
-            const response = await axios.post<APIResponse>("/api/auth/update-avatar", data);
+            const file = await handleImageCompression(data.file[0]) as File;
+            const response = await axios.post<APIResponse>("/api/auth/update-avatar", file);
             toast({
                 description: response.data.message
             })
@@ -111,12 +112,7 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
             setIsLoading(false);
         }
     }
-
-    const createFileList = (files: File[]) => {
-        const dataTransfer = new DataTransfer();
-        files.forEach(file => dataTransfer.items.add(file));
-        return dataTransfer.files;
-    };
+    const fileRef = avatarForm.register("file");
 
     return (
         <Card className="w-full max-w-xl">
@@ -148,18 +144,15 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
                                         <FormField
                                             name="file"
                                             control={avatarForm.control}
-                                            render={({ field }) => (
+                                            render={() => (
                                                 <FormItem>
                                                     <FormLabel className="flex items-center gap-1"><FileIcon className="w-4 h-4 mr-1" />Avatar Image</FormLabel>
                                                     <FormControl>
-                                                        <Input {...field}
+                                                        <Input {...fileRef}
                                                             type="file"
                                                             onChange={async (e) => {
                                                                 const file = await handleImageCompression(e.target.files?.[0] ?? null);
-                                                                if (!file) return;
-                                                                const fileList = createFileList([file]);
-                                                                avatarForm.setValue("file", fileList);
-                                                                setAvatar(file);
+                                                                if (file) setAvatar(file);
                                                             }}
                                                         />
                                                     </FormControl>

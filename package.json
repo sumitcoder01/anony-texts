@@ -26,6 +26,7 @@
     "ai": "^3.2.16",
     "axios": "^1.7.2",
     "bcryptjs": "^2.4.3",
+    "browser-image-compression": "^2.0.2",
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^2.2.0",
     "clsx": "^2.1.1",

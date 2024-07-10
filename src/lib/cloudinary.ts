@@ -8,7 +8,7 @@ cloudinary.config({
 
 export const uploadToCloudinary = (filePath: string): Promise<{ secure_url: string; public_id: string }> => {
   return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload(filePath, (error, result) => {
+    cloudinary.uploader.upload(filePath, { folder: 'anony texts' }, (error, result) => {
       if (error || !result) {
         reject(error || "error on uploading image");
       } else {

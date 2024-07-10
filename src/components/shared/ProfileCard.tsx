@@ -40,6 +40,9 @@ import axios, { AxiosError } from 'axios';
 import { APIResponse } from "@/types/ApiResponse";
 import { CircularLoader } from "../specific/CircularLoader";
 import { CameraIcon } from "../icons/CameraIcon";
+import { avatarImageSchema } from "@/schemas/avatarImageSchema";
+import { handleImageCompression } from "@/lib/imageCompression";
+import { FileIcon } from "../icons/FileIcon";
 
 export type ProfileCardProps = {
     user: any;
@@ -51,6 +54,7 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
     const [avatar, setAvatar] = useState<File | null>();
     const [showChangeAvatar, setShowChangeAvatar] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isAvatarLoading, setIsAvatarLoading] = useState<boolean>(false);
     const { toast } = useToast();
 
     const form = useForm<z.infer<typeof updateUserSchema>>({
@@ -60,6 +64,31 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
             email: user.email
         }
     });
+
+    const avatarForm = useForm<z.infer<typeof avatarImageSchema>>({
+        resolver: zodResolver(avatarImageSchema),
+    });
+
+    const onSubmitAvatar = async (data: z.infer<typeof avatarImageSchema>) => {
+        setIsAvatarLoading(true);
+        try {
+            const response = await axios.post<APIResponse>("/api/auth/update-avatar", data);
+            toast({
+                description: response.data.message
+            })
+            updateAvatar(response.data?.secure_url ?? "", response.data?.public_id ?? "");
+        } catch (error) {
+            const axiosError = error as AxiosError<APIResponse>;
+            toast({
+                title: 'Error',
+                description: axiosError.response?.data.message ?? "Error on updating avatar",
+                variant: 'destructive',
+            })
+        }
+        finally {
+            setIsAvatarLoading(false);
+        }
+    }
 
     const onSubmit = async (data: z.infer<typeof updateUserSchema>) => {
         setIsLoading(true);
@@ -83,15 +112,76 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
         }
     }
 
+    const createFileList = (files: File[]) => {
+        const dataTransfer = new DataTransfer();
+        files.forEach(file => dataTransfer.items.add(file));
+        return dataTransfer.files;
+    };
+
     return (
         <Card className="w-full max-w-xl">
             <CardHeader className="relative">
-                <Avatar className="h-40 w-40 relative bg-red-700" onMouseEnter={() => setShowChangeAvatar(true)} onMouseLeave={() => setShowChangeAvatar(false)}>
+                <Avatar className="h-40 w-40 relative" onMouseEnter={() => setShowChangeAvatar(true)} onMouseLeave={() => setShowChangeAvatar(false)}>
                     <AvatarImage src={avatar || (user?.avatar?.secure_url ?? avatarDefaultImg)} />
                     <AvatarFallback>Avatar</AvatarFallback>
-                    <div className="absolute z-50 bottom-3 left-[70%]">
-                        <Input onChange={(e) => setAvatar(e.target.files ? e.target.files[0] : null)} className="opacity-0" type="file" />
-                        <CameraIcon />
+                    <div className="absolute z-50 bottom-3 left-[68%]">
+                        <Dialog>
+                            <div className="w-full text-right">
+                                <DialogTrigger asChild>
+                                    <Button variant="link">
+                                        <CameraIcon />
+                                    </Button>
+                                </DialogTrigger>
+                            </div>
+                            <DialogContent className="sm:max-w-[425px]">
+                                <DialogHeader>
+                                    <DialogTitle>Update Avatar</DialogTitle>
+                                    <DialogDescription className="my-14 w-full">
+                                        <Avatar className="h-40 w-40 mx-auto">
+                                            <AvatarImage src={avatar || (user?.avatar?.secure_url ?? avatarDefaultImg)} />
+                                            <AvatarFallback>Avatar</AvatarFallback>
+                                        </Avatar>
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <Form {...avatarForm}>
+                                    <form onSubmit={avatarForm.handleSubmit(onSubmitAvatar)} className="space-y-8">
+                                        <FormField
+                                            name="file"
+                                            control={avatarForm.control}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel className="flex items-center gap-1"><FileIcon className="w-4 h-4 mr-1" />Avatar Image</FormLabel>
+                                                    <FormControl>
+                                                        <Input {...field}
+                                                            type="file"
+                                                            onChange={async (e) => {
+                                                                const file = await handleImageCompression(e.target.files?.[0] ?? null);
+                                                                if (!file) return;
+                                                                const fileList = createFileList([file]);
+                                                                avatarForm.setValue("file", fileList);
+                                                                setAvatar(file);
+                                                            }}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                        <DialogFooter>
+                                            <Button disabled={isAvatarLoading} type="submit"> {isAvatarLoading ?
+                                                (
+                                                    <>
+                                                        <CircularLoader className="h-4 w-4 mr-2" /> Please wait
+                                                    </>
+                                                )
+                                                :
+                                                "Update Avatar"
+                                            }</Button>
+                                        </DialogFooter>
+                                    </form>
+                                </Form>
+                            </DialogContent>
+                        </Dialog>
                     </div>
                 </Avatar>
                 {showChangeAvatar && <CardDescription className="absolute z-40 bg-gray-400 text-xs rounded-lg top-2/3 h-7  text-white p-2">Change your avatar</CardDescription>}

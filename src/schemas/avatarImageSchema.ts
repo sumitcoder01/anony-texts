@@ -4,7 +4,7 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 
 export const avatarImageSchema = z.object({
     file: z
-        .instanceof(FileList)
+        .custom<FileList>()
         .refine((imageFiles) => imageFiles?.length >= 1, 'Image is required.')
         .refine((imageFiles) => imageFiles?.[0]?.size <= MAX_FILE_SIZE, "Max image size is 10MB.")
         .refine(

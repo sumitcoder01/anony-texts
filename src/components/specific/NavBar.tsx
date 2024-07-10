@@ -49,7 +49,7 @@ export const NavBar = () => {
           {user ? <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar>
-                <AvatarImage src={avatarDefaultImg} />
+                <AvatarImage src={user?.avatar?.secure_url ?? avatarDefaultImg} />
                 <AvatarFallback>Account</AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>

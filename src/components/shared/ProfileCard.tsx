@@ -51,7 +51,7 @@ export type ProfileCardProps = {
 }
 
 export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardProps) => {
-    const [avatar, setAvatar] = useState<File | null>();
+    const [avatar, setAvatar] = useState<File | null>(null);
     const [showChangeAvatar, setShowChangeAvatar] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isAvatarLoading, setIsAvatarLoading] = useState<boolean>(false);
@@ -126,7 +126,7 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
         <Card className="w-full max-w-xl">
             <CardHeader className="relative">
                 <Avatar className="h-40 w-40 relative" onMouseEnter={() => setShowChangeAvatar(true)} onMouseLeave={() => setShowChangeAvatar(false)}>
-                    <AvatarImage src={avatar || (user?.avatar?.secure_url ?? avatarDefaultImg)} />
+                    <AvatarImage src={user?.avatar?.secure_url ?? avatarDefaultImg} />
                     <AvatarFallback>Avatar</AvatarFallback>
                     <div className="absolute z-50 bottom-3 left-[68%]">
                         <Dialog>

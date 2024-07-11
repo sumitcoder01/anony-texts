@@ -31,7 +31,6 @@ export interface User extends Document {
 const AvatarSchema: Schema<Avatar> = new mongoose.Schema({
     public_id: {
         type: String,
-        required: true
     },
     secure_url: {
         type: String,

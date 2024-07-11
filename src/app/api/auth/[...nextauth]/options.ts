@@ -55,12 +55,18 @@ export const authOptions: NextAuthOptions = {
       if (account && profile && account.provider === "google") {
         await dbConnect();
         const email = profile?.email || "";
+
+        const avatar = {
+          secure_url: profile?.image ?? "",
+        }
+        
         let user = await UserModel.findOne({ email });
         if (!user) {
           const username = createUserName(email)
           user = new UserModel({
             username,
             email,
+            avatar,
             isVerified: true,
             verifyCode: Math.floor(100000 + Math.random() * 900000).toString(),
             verifyCodeExpiry: Date.now(),

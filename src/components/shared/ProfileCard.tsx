@@ -51,7 +51,7 @@ export type ProfileCardProps = {
 }
 
 export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardProps) => {
-    const [avatar, setAvatar] = useState<File | null>(null);
+    const [avatar, setAvatar] = useState<string | null>(null);
     const [showChangeAvatar, setShowChangeAvatar] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isAvatarLoading, setIsAvatarLoading] = useState<boolean>(false);
@@ -81,7 +81,7 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            
+
             toast({
                 description: response.data.message
             })
@@ -160,7 +160,7 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
                                                             type="file"
                                                             onChange={async (e) => {
                                                                 const file = await handleImageCompression(e.target.files?.[0] ?? null);
-                                                                if (file) setAvatar(file);
+                                                                if (file) setAvatar(URL.createObjectURL(file));
                                                             }}
                                                         />
                                                     </FormControl>

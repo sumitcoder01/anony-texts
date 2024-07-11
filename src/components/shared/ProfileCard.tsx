@@ -212,7 +212,7 @@ export const ProfileCard = ({ user, updateProfile, updateAvatar }: ProfileCardPr
                     </div>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Edit profile</DialogTitle>
+                            <DialogTitle>Edit Profile</DialogTitle>
                             <DialogDescription>
                                 Make changes to your profile here. Click save when you are done.
                             </DialogDescription>

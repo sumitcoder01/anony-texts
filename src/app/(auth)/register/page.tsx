@@ -19,6 +19,7 @@ import { UsernameIcon } from '@/components/icons/UsernameIcon';
 import { EmailIcon } from '@/components/icons/EmailIcon';
 import { PasswordIcon } from '@/components/icons/PasswordIcon';
 import { PasswordInput } from '@/components/shared/PasswordInput';
+import { AuthProviders } from '@/components/shared/AuthProviders';
 
 const Register = () => {
   const [username, setUsername] = useState<string>('');
@@ -178,6 +179,7 @@ const Register = () => {
             </Button>
           </form>
         </Form>
+        <AuthProviders/>
         <div className="text-center mt-4">
           <p>
             Already a member?{' '}

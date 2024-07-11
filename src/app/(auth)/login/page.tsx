@@ -16,6 +16,8 @@ import { UsernameIcon } from '@/components/icons/UsernameIcon';
 import { PasswordIcon } from '@/components/icons/PasswordIcon';
 import { PasswordInput } from '@/components/shared/PasswordInput';
 import { signIn } from 'next-auth/react';
+import { AuthProviders } from '@/components/shared/AuthProviders';
+
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -58,7 +60,7 @@ const Login = () => {
       if (result?.url) {
         toast({
           title: 'Success',
-          description:"Sign In Success",
+          description: "Sign In Success",
         });
         router.replace('/dashboard');
       }
@@ -109,7 +111,7 @@ const Login = () => {
                   <FormLabel className="flex gap-1 items-center"><PasswordIcon className="h-4 w-4" />Password</FormLabel>
                   <PasswordInput name="password" field={field} />
                   <FormMessage />
-                  <p onClick={()=>router.replace("/forgot-password")} className='text-blue-600 hover:text-blue-800 hover:underline text-sm text-right underline-offset-2'>Forgot password?</p>
+                  <p onClick={() => router.replace("/forgot-password")} className='text-blue-600 hover:text-blue-800 hover:underline text-sm text-right underline-offset-2'>Forgot password?</p>
                 </FormItem>
               )}
             />
@@ -126,6 +128,7 @@ const Login = () => {
             </Button>
           </form>
         </Form>
+        <AuthProviders/>
         <div className="text-center mt-4">
           <p>
             Not a member yet?{' '}

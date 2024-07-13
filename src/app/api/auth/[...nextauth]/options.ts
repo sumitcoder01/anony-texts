@@ -1,4 +1,4 @@
-import { NextAuthOptions } from 'next-auth';
+import { NextAuthOptions, User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from 'bcryptjs';
@@ -31,6 +31,9 @@ export const authOptions: NextAuthOptions = {
           if (!user.isVerified) {
             throw new Error('Please verify your account before logging in');
           }
+          if (user.isGoogleAccount) {
+            throw new Error('Please login with correct credentials');
+          }
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
@@ -55,10 +58,10 @@ export const authOptions: NextAuthOptions = {
       if (account && profile && account.provider === "google") {
         await dbConnect();
         try {
-          const email = profile?.email || "";
+          const email = profile?.email ?? "";
 
           const avatar = {
-            secure_url: profile?.image ?? "",
+            secure_url: profile?.image ?? "none",
           }
 
           let user = await UserModel.findOne({ email });
@@ -76,15 +79,28 @@ export const authOptions: NextAuthOptions = {
             });
             await user.save();
           }
+          else if (!user.isGoogleAccount) return false;
         }
         catch (error) {
           console.log("Error on sign in with google: ", error);
-          throw new Error("Error on sign in with google");
+          return false;
         }
       }
       return true;
     },
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger, session, account, profile }) {
+      if (profile && account && account.provider === "google") {
+        await dbConnect();
+        try {
+          const email = profile?.email || "";
+          const dbUser = await UserModel.findOne({ email }) as User;
+          if (!dbUser) throw new Error("user not found");
+          user = { ...user, ...dbUser };
+        }
+        catch (error) {
+          console.log("Error on sign in with google: ", error);
+        }
+      }
       if (trigger === "update") {
         return { ...token, ...session.user };
       }

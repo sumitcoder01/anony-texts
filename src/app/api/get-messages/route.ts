@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
         const totalPages = Math.ceil(user.messages.length / limit);
 
-        const messages: Message[] = user.messages.slice(skip, skip + limit).sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+        const messages: Message[] = user.messages.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()).slice(skip, skip + limit);
         return NextResponse.json(
             { successs: true, messages, totalPages },
             { status: 200 }

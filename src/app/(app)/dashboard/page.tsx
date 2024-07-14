@@ -20,6 +20,16 @@ import { RefreshIcon } from "@/components/icons/RefreshIcon";
 import { CircularLoader } from "@/components/specific/CircularLoader";
 import { MessagesListSkeleton } from "@/components/loaders/MessageListSkeleton";
 import { MessagesList } from "@/components/specific/MessagesList";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
 
 
 const Dashboard = () => {
@@ -30,8 +40,11 @@ const Dashboard = () => {
   const { toast } = useToast();
   const [copiedText, copy] = useCopyToClipboard();
   const [page, setPage] = useState<number>(1);
-  const [totaPages, setTotalPages] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const limit = 6;
+  const [pageNumbers, setPageNumbers] = useState<number[]>([]);
+  const [isPageNumberLoading, setIsPageNumberLoading] = useState<boolean>(true);
+
 
   const handleDeleteMessage = (id: string) => {
     setMessages(messages.filter(message => message._id !== id));
@@ -43,10 +56,10 @@ const Dashboard = () => {
 
   const acceptMessages = watch('acceptMessages');
 
-  const fetchMessages = async (refresh: boolean = false) => {
+  const fetchMessages = async (refresh: boolean = false, pageNumber = page) => {
     setIsMessageLoading(true);
     try {
-      const response = await axios.get<APIResponse>(`/api/get-messages?page=${page}&limit=${limit}`);
+      const response = await axios.get<APIResponse>(`/api/get-messages?page=${pageNumber}&limit=${limit}`);
       setMessages(response.data.messages || []);
       setTotalPages(response.data.totalPages || 1);
       if (refresh) {
@@ -97,6 +110,20 @@ const Dashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    const getPageNumbers = () => {
+      let arr = [];
+      for (let i = page - 3; i <= page + 3; i++) {
+        if (i < 1) continue;
+        else if (i > totalPages) break;
+        arr.push(i);
+      }
+      setPageNumbers(arr);
+    }
+    getPageNumbers();
+    if (totalPages !== 0) setIsPageNumberLoading(false);
+  }, [page, totalPages]);
+
   const handleSwitchChange = async () => {
     setIsSwitchLoading(true);
     try {
@@ -122,6 +149,7 @@ const Dashboard = () => {
       setIsSwitchLoading(false);
     }
   };
+
 
   if (!session || !session.user) {
     return <div></div>
@@ -149,11 +177,12 @@ const Dashboard = () => {
       })
   }
 
-  const getNextPage = () => {
-    setPage(prev => prev + 1);
-    fetchAcceptMessages();
+  const handlePageChange = (pageNumber: number) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    setPage(pageNumber);
+    fetchMessages(false, pageNumber);
   }
-  
+
   return (
     <div className="w-full max-w-6xl my-8 mx-8 md:mx-6 lg:mx-auto bg-white dark:bg-black shadow-md rounded-lg p-8">
       <h1 className="text-3xl font-bold mb-4" >User Dashboard</h1>
@@ -193,10 +222,29 @@ const Dashboard = () => {
           <RefreshIcon className="h-4 w-4" />
         )}
       </Button>
-      <div className="mt-4">
+      <div className="my-4">
         {isMessageLoading ? <MessagesListSkeleton /> : <MessagesList messages={messages} handleDeleteMessage={handleDeleteMessage} />}
       </div>
-    </div>
+      {!isPageNumberLoading && <Pagination className="mt-14 mb-3">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious onClick={() => handlePageChange(page - 1)} />
+          </PaginationItem>
+          {pageNumbers.map(pageNumber => (<PaginationItem key={pageNumber}>
+            <PaginationLink className={`${page === pageNumber && "font-bold text-md"}`} onClick={() => handlePageChange(pageNumber)}>{pageNumber}</PaginationLink>
+          </PaginationItem>))
+          }
+          {
+            page + 3 >= totalPages && < PaginationItem >
+              <PaginationEllipsis />
+            </PaginationItem>
+          }
+          <PaginationItem>
+            <PaginationNext onClick={() => handlePageChange(page + 1)} />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>}
+    </div >
   )
 }
 

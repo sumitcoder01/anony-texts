@@ -7,4 +7,5 @@ export interface APIResponse {
   messages?: Array<Message>;
   secure_url?: string;
   public_id?: string;
+  totalPages?: Number;
 };

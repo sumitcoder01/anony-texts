@@ -42,6 +42,7 @@
     "react-cssfx-loading": "^2.1.0",
     "react-dom": "^18",
     "react-hook-form": "^7.52.1",
+    "react-infinite-scroll-component": "^6.1.0",
     "resend": "^3.4.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",

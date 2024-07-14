@@ -29,6 +29,9 @@ const Dashboard = () => {
   const { data: session } = useSession();
   const { toast } = useToast();
   const [copiedText, copy] = useCopyToClipboard();
+  const [page, setPage] = useState<number>(1);
+  const [totaPages, setTotalPages] = useState<number>(1);
+  const limit = 6;
 
   const handleDeleteMessage = (id: string) => {
     setMessages(messages.filter(message => message._id !== id));
@@ -43,8 +46,9 @@ const Dashboard = () => {
   const fetchMessages = async (refresh: boolean = false) => {
     setIsMessageLoading(true);
     try {
-      const response = await axios.get<APIResponse>('/api/get-messages');
+      const response = await axios.get<APIResponse>(`/api/get-messages?page=${page}&limit=${limit}`);
       setMessages(response.data.messages || []);
+      setTotalPages(response.data.totalPages || 1);
       if (refresh) {
         toast({
           title: 'Refreshed Messages',
@@ -64,27 +68,28 @@ const Dashboard = () => {
     }
   }
 
+  const fetchAcceptMessages = async () => {
+    setIsSwitchLoading(true);
+    try {
+      const response = await axios.get<APIResponse>('/api/accept-messages');
+      setValue('acceptMessages', response.data?.isAcceptingMessages ?? false);
+    } catch (error) {
+      const axiosError = error as AxiosError<APIResponse>;
+      toast({
+        title: 'Error',
+        description:
+          axiosError.response?.data.message ??
+          'Failed to fetch message settings',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsSwitchLoading(false);
+    }
+  }
+
+
   useEffect(() => {
     if (!session || !session.user) return;
-
-    const fetchAcceptMessages = async () => {
-      setIsSwitchLoading(true);
-      try {
-        const response = await axios.get<APIResponse>('/api/accept-messages');
-        setValue('acceptMessages', response.data?.isAcceptingMessages ?? false);
-      } catch (error) {
-        const axiosError = error as AxiosError<APIResponse>;
-        toast({
-          title: 'Error',
-          description:
-            axiosError.response?.data.message ??
-            'Failed to fetch message settings',
-          variant: 'destructive',
-        });
-      } finally {
-        setIsSwitchLoading(false);
-      }
-    }
 
     fetchMessages();
     fetchAcceptMessages();
@@ -144,6 +149,11 @@ const Dashboard = () => {
       })
   }
 
+  const getNextPage = () => {
+    setPage(prev => prev + 1);
+    fetchAcceptMessages();
+  }
+  
   return (
     <div className="w-full max-w-6xl my-8 mx-8 md:mx-6 lg:mx-auto bg-white dark:bg-black shadow-md rounded-lg p-8">
       <h1 className="text-3xl font-bold mb-4" >User Dashboard</h1>

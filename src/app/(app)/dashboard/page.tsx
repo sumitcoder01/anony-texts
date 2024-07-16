@@ -225,17 +225,23 @@ const Dashboard = () => {
       <div className="my-4">
         {isMessageLoading ? <MessagesListSkeleton /> : <MessagesList messages={messages} handleDeleteMessage={handleDeleteMessage} />}
       </div>
-      {!isPageNumberLoading && <Pagination className="mt-14 mb-3">
+      {!isPageNumberLoading && messages.length > 0 && <Pagination className="mt-14 mb-3">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious onClick={() => handlePageChange(page - 1)} />
           </PaginationItem>
-          {pageNumbers.map(pageNumber => (<PaginationItem key={pageNumber}>
-            <PaginationLink className={`${page === pageNumber && "font-bold text-md"}`} onClick={() => handlePageChange(pageNumber)}>{pageNumber}</PaginationLink>
-          </PaginationItem>))
+          {
+            page - 3 > 1 && < PaginationItem >
+              <PaginationEllipsis />
+            </PaginationItem>
           }
           {
-            page + 3 >= totalPages && < PaginationItem >
+            pageNumbers.map(pageNumber => (<PaginationItem key={pageNumber}>
+              <PaginationLink className={`${page === pageNumber && "font-bold text-md"}`} onClick={() => handlePageChange(pageNumber)}>{pageNumber}</PaginationLink>
+            </PaginationItem>))
+          }
+          {
+            page + 3 < totalPages && < PaginationItem >
               <PaginationEllipsis />
             </PaginationItem>
           }

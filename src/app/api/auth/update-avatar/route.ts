@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
-import { uploadToCloudinary } from "@/lib/cloudinary";
+import { deleteFromCloudinary, uploadToCloudinary } from "@/lib/cloudinary";
 import fs from "fs";
 import UserModel from "@/models/User";
 import { getServerSession } from "next-auth";
@@ -44,6 +44,8 @@ export async function POST(request: NextRequest) {
 
         await UserModel.findByIdAndUpdate(_id, { avatar: { secure_url, public_id } });
 
+        if(user.avatar && user.avatar.public_id) await deleteFromCloudinary(user.avatar.public_id);
+
         return NextResponse.json(
             {
                 success: true,
@@ -53,7 +55,6 @@ export async function POST(request: NextRequest) {
             },
             { status: 201 }
         );
-
     } catch (error) {
         console.log("Error on uploading image " + error);
         return NextResponse.json(

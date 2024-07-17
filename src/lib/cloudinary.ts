@@ -17,3 +17,15 @@ export const uploadToCloudinary = (filePath: string): Promise<{ secure_url: stri
     });
   });
 };
+
+export const deleteFromCloudinary = (publicId: string): Promise<{ result: string }> => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error || !result) {
+        reject(error || "error on deleting image");
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};

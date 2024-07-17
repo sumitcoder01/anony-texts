@@ -111,7 +111,7 @@ const SendMessage = ({ params }: SendMessageProps) => {
                     <Button onClick={suggetMessages}>Suggest Messages</Button>
                     <p>Click on any message below to select it.</p>
                 </div>
-                <Card className="md:w-2/3 bg-black mx-auto border-none">
+                <Card className="md:w-2/3 dark:bg-black mx-auto border-none">
                     <CardContent className="flex flex-col gap-6">
                         {parseStringMessages(suggestMessageString).map((message, index) => (
                             <Button

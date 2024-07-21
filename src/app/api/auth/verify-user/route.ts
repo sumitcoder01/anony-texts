@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         if (isValid) {
             // Update the user's verification status
             user.isVerified = true;
-            await user.save();
+            await user.save({ validateBeforeSave: false });
 
             return NextResponse.json(
                 { success: true, message: 'Account verified successfully' },

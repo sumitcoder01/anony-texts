@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { passwordValidation } from './registerSchema';
 
 export const resetPasswordSchema = z.object({
-    oldPassword: passwordValidation
+    oldPassword: passwordValidation,
     password: passwordValidation,
     confirmPassword: passwordValidation
 }).superRefine((data, ctx) => {

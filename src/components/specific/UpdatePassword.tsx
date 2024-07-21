@@ -6,10 +6,16 @@ import {
     Form,
     FormControl,
     FormField,
+    FormDescription,
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -87,8 +93,20 @@ export const UpdatePassword = ({ identifier }: UpdatePasswordProps) => {
                         <FormItem>
                             <FormLabel className="flex gap-1 items-center"><SecretsIcon className="h-4 w-4" />Verification Code</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <InputOTP maxLength={6} {...field}>
+                                    <InputOTPGroup>
+                                        <InputOTPSlot index={0} />
+                                        <InputOTPSlot index={1} />
+                                        <InputOTPSlot index={2} />
+                                        <InputOTPSlot index={3} />
+                                        <InputOTPSlot index={4} />
+                                        <InputOTPSlot index={5} />
+                                    </InputOTPGroup>
+                                </InputOTP>
                             </FormControl>
+                            <FormDescription>
+                                Please enter the one-time password sent to your email.
+                            </FormDescription>
                             <FormMessage />
                         </FormItem>
                     )}

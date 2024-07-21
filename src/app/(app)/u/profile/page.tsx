@@ -36,7 +36,6 @@ const UserProfile = () => {
   const onSubmit = (data: z.infer<typeof usernameSchema>) => {
     const baseUrl = `${window.location.protocol}//${window.location.host}`;
     const profileUrl = `${baseUrl}/u/${data.username}`;
-    console.log(profileUrl);
     router.replace(profileUrl);
   }
   const updateAvatar = (secure_url: string, public_id: string) => {

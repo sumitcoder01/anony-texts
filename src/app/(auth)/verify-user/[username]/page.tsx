@@ -4,10 +4,16 @@ import {
   Form,
   FormField,
   FormItem,
+  FormDescription,
   FormLabel,
   FormMessage,
+  FormControl,
 } from '@/components/ui/form';
-import { Input } from "@/components/ui/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
 import { useToast } from "@/components/ui/use-toast";
 import { verifySchema } from "@/schemas/verifySchema";
 import { APIResponse } from "@/types/ApiResponse";
@@ -83,7 +89,21 @@ const VerifyUser = ({ params }: VerifyUserProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex gap-1 items-center"><SecretsIcon className="h-4 w-4" />Verification Code</FormLabel>
-                  <Input {...field} />
+                  <FormControl>
+                    <InputOTP maxLength={6} {...field}>
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </FormControl>
+                  <FormDescription>
+                    Please enter the one-time password sent to your email.
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

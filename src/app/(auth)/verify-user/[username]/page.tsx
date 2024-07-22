@@ -74,7 +74,7 @@ const VerifyUser = ({ params }: VerifyUserProps) => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white dark:bg-black rounded-lg shadow-md">
+      <div className="w-full max-w-lg p-8 space-y-8 bg-white dark:bg-black rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
             Verify Your Account
@@ -102,7 +102,7 @@ const VerifyUser = ({ params }: VerifyUserProps) => {
                     </InputOTP>
                   </FormControl>
                   <FormDescription>
-                    Please enter the one-time password sent to your email.
+                    Please enter the verification code sent to your email.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

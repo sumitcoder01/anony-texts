@@ -40,7 +40,7 @@ const Register = () => {
   });
   useEffect(() => {
     const checkUsernameUnique = async () => {
-      if (username) {
+      if (username.length >= 2) {
         setIsCheckingUsername(true);
         setUsernameMessage('');
         try {
@@ -149,7 +149,7 @@ const Register = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex gap-1 items-center"><PasswordIcon className="h-4 w-4" />Password</FormLabel>
-                  <PasswordInput name="password" field={field}/>
+                  <PasswordInput name="password" field={field} />
                   <FormMessage />
                 </FormItem>
               )}
@@ -161,7 +161,7 @@ const Register = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="flex gap-1 items-center" ><PasswordIcon className="h-4 w-4" />Confirm Password</FormLabel>
-                  <PasswordInput name="confirmPassword" field={field}/>
+                  <PasswordInput name="confirmPassword" field={field} />
                   <FormMessage />
                 </FormItem>
               )}

@@ -1,4 +1,4 @@
-import { MailMinus as MailIcon } from 'lucide-react';
+import { Mail as MailIcon } from 'lucide-react';
 
 export type EmailIconProps = {
     className?: string;

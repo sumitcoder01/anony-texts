@@ -11,10 +11,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Textarea } from "@/components/ui/textarea"
 import { CircularLoader } from "@/components/specific/CircularLoader";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { parseStringMessages } from "@/lib/parseStringMessages";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
+import { chatSession } from "@/lib/suggestMessages";
+import { prompt } from "@/constants/aiPromt";
 
 export type SendMessageProps = {
     params: { username: string }
@@ -25,6 +27,7 @@ const initialMessageString =
 
 const SendMessage = ({ params }: SendMessageProps) => {
     const [suggestMessageString, setSuggestMessageString] = useState<string>(initialMessageString);
+    const [suggestMessagesLoading, setSuggestMessagesLoading] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { username } = params;
     const { toast } = useToast();
@@ -39,8 +42,22 @@ const SendMessage = ({ params }: SendMessageProps) => {
 
     const messageContent = form.watch("content");
 
-    const suggetMessages = () => {
-        setSuggestMessageString(initialMessageString)
+    const suggetMessages = async () => {
+        setSuggestMessagesLoading(true);
+        try {
+            const result = await chatSession.sendMessage(prompt);
+            setSuggestMessageString(result.response.text());
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description:
+                    'Failed to suggest messages',
+                variant: 'destructive',
+            });
+        }
+        finally {
+            setSuggestMessagesLoading(false);
+        }
     }
 
     const onSubmit = async (data: z.infer<typeof messageSchema>) => {
@@ -108,7 +125,7 @@ const SendMessage = ({ params }: SendMessageProps) => {
             </Form>
             <div className="space-y-6 my-8">
                 <div className="space-y-4 mb-14">
-                    <Button onClick={suggetMessages}>Suggest Messages</Button>
+                    <Button disabled={suggestMessagesLoading} onClick={suggetMessages}>Suggest Messages</Button>
                     <p>Click on any message below to select it.</p>
                 </div>
                 <Card className="md:w-2/3 bg-white dark:bg-black mx-auto border-none">

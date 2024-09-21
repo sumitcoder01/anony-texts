@@ -12,7 +12,7 @@ Anony Texts is a modern web application built with Next.js, designed to facilita
 - **Resend**: Used for handling email functionalities.
 - **Zod**: A TypeScript-first schema declaration and validation library.
 - **React Hook Form**: For efficient and scalable form handling.
-- **OpenAI**: Integrated to enhance features with AI capabilities.
+- **Gemini**: Integrated to enhance features with AI capabilities.
 - **TypeScript**: Ensures type safety and enhances the development experience.
 - **NextAuth**: Manages authentication, providing secure and easy-to-implement login mechanisms.
 

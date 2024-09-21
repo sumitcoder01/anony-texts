@@ -134,7 +134,7 @@ const SendMessage = ({ params }: SendMessageProps) => {
                             <Button
                                 key={index}
                                 variant={"outline"}
-                                className="mb-3 py-5 "
+                                className="mb-3 py-5 text-center text-wrap"
                                 onClick={() => handleMessageClick(message)}
                             >{message}</Button>
                         ))}

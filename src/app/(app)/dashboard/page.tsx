@@ -184,7 +184,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="w-full max-w-6xl my-8 mx-8 md:mx-6 lg:mx-auto bg-white dark:bg-black shadow-md rounded-lg p-8">
+    <div className="w-full max-w-6xl my-8 mx-8 md:mx-6 lg:mx-auto bg-secondary dark:bg-black shadow-md rounded-lg p-8">
       <h1 className="text-3xl font-bold mb-4" >User Dashboard</h1>
       <div className="mb-8">
         <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{' '}

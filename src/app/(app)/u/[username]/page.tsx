@@ -88,7 +88,7 @@ const SendMessage = ({ params }: SendMessageProps) => {
     };
 
     return (
-        <div className="w-full max-w-6xl bg-white dark:bg-black my-8 p-8 mx-8 md:mx-6 lg:mx-auto rounded-md shadow-md">
+        <div className="w-full max-w-6xl bg-secondary dark:bg-black my-8 p-8 mx-8 md:mx-6 lg:mx-auto rounded-md shadow-md">
             <h1 className="text-4xl lg:text-5xl mb-2">Public Profile Link</h1>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -128,7 +128,7 @@ const SendMessage = ({ params }: SendMessageProps) => {
                     <Button disabled={suggestMessagesLoading} onClick={suggetMessages}>Suggest Messages</Button>
                     <p>Click on any message below to select it.</p>
                 </div>
-                <Card className="md:w-2/3 bg-white dark:bg-black mx-auto border-none">
+                <Card className="md:w-2/3 bg-secondary dark:bg-black mx-auto border-none">
                     <CardContent className="flex flex-col gap-6">
                         {parseStringMessages(suggestMessageString).map((message, index) => (
                             <Button

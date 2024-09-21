@@ -80,7 +80,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-lg p-8 space-y-8 bg-white dark:bg-black rounded-lg shadow-md my-2">
+      <div className="w-full max-w-lg p-8 space-y-8 bg-secondary dark:bg-black rounded-lg shadow-md my-2">
         <div className="text-center">
           <h1 className="text-3xl font-extrabold tracking-tight lg:text-4xl mb-6">
             Welcome Back to Anony Texts

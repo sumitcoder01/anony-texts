@@ -61,7 +61,7 @@ const ForgotPassword = ({ searchParams }: { searchParams: { identifier: z.infer<
   }
 
   return (
-    <div className="bg-white dark:bg-black w-full max-w-4xl p-10 my-12 mx-auto rounded-md shadow-lg">
+    <div className="bg-secondary dark:bg-black w-full max-w-4xl p-10 my-12 mx-auto rounded-md shadow-lg">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 mb-12 mt-2 w-full max-w-xs">
           <FormField

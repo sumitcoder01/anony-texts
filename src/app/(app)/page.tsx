@@ -19,7 +19,7 @@ export default function Home() {
   )
 
   return (
-    <main className="bg-white dark:bg-black flex flex-col items-center md:mx-10 gap-10 rounded-md shadow-xl p-10 my-4">
+    <main className="bg-secondary dark:bg-black flex flex-col items-center md:mx-10 gap-10 rounded-md shadow-xl p-10 my-4">
       <section className="text-center mb-10 md:mb-12">
         <h1 className="text-3xl md:text-4xl mb-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">Dive into the World of Anonymous Texts</h1>
         <TextGenerateEffect className="text-lg md:text-xl font-semibold" words={"Anony Texts - Where your identity remains a secret."} />
